@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; //
-import './App.css'
+import axios from 'axios';
+import './App.css';
 
 function App() {
-  // Define state variables
+  // State variables
   const [name, setName] = useState('');
   const [phoneNumber, setPhone] = useState('');
   const [phoneNumbers, setPhoneNumbers] = useState([]);
@@ -72,7 +72,7 @@ function App() {
   const updatePhoneNumber = (phoneNumber) => {
     setUpdateId(phoneNumber._id);
     setName(phoneNumber.name);
-    setPhone(phoneNumber.phone);
+    setPhone(phoneNumber.phoneNumber);
   };
 
   // Clear state and cancel update
@@ -84,32 +84,9 @@ function App() {
 
   // Render the component
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      minHeight: '100vh',
-      width: '100%',
-      background: 'url(./background.jpg)',
-      backgroundSize: 'cover',
-      position: 'relative'
-    }}>
-      <div style={{
-        position: 'absolute',
-        top: '25%',
-        left: '5%',
-        boxShadow: '0px 0px 10px 1px rgba(0, 0, 0, 0.25)',
-        padding: '16px',
-        borderRadius: '8px',
-        background: 'rgba(255, 255, 255, 0.75)',
-        backdropFilter: 'blur(5px)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '40%',
-        height: '60%',
-        overflow: 'auto',
-      }}>
-        <h1 style={{ textAlign: 'center', fontSize: '2rem', fontFamily: "'Press Start 2P', cursive" }}>PhoneBook</h1>
+    <div className="container">
+      <div className="phonebook">
+        <h1>PhoneBook</h1>
         <form onSubmit={(e) => {
           e.preventDefault();
           addOrUpdatePhoneNumber();
@@ -126,43 +103,37 @@ function App() {
             value={phoneNumber}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <button type="submit">{updateId ? 'Update' : 'Add'}</button>
-          {updateId && (
-            <button onClick={cancelUpdate}>
-              Cancel
+          <div className="form-buttons">
+            <button type="submit">
+              {updateId ? 'Update' : 'Add'}
             </button>
-          )}
+            {updateId && (
+              <button type="button" className="cancel" onClick={cancelUpdate}>
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
-        <br></br>
-        <table style={{border: '1px solid black'}}>
-          <thead style={{borderTop: '1px solid black'}}>
-          <tr>
-            <th style={{ fontSize: '1.2rem', fontFamily: 'Arial, sans-serif', border: '1px solid black', padding: '8px' }}>
-              Action
-            </th>
-            <th style={{ fontSize: '1.2rem', fontFamily: 'Arial, sans-serif', border: '1px solid black', padding: '8px' }}>
-              Name
-            </th>
-            <th style={{ fontSize: '1.2rem', fontFamily: 'Arial, sans-serif', border: '1px solid black', padding: '8px' }}>
-              Phone Number
-            </th>
-          </tr>
+        <br />
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Name</th>
+              <th>Phone Number</th>
+            </tr>
           </thead>
           <tbody>
-          {phoneNumbers.map((phoneNumber) => (
-            <tr key={phoneNumber._id} style={{border: '1px solid black'}}>
-              <td style={{ borderLeft: '1px solid black', fontSize: '1.2rem', fontFamily: 'Arial, sans-serif', borderRight: '1px solid black', padding: '8px' }}>
-                <button onClick={() => updatePhoneNumber(phoneNumber)}>Edit</button>
-                <button onClick={() => deletePhoneNumber(phoneNumber._id)}>Delete</button>
-              </td>
-              <td style={{ borderLeft: '1px solid black', fontSize: '1.2rem', fontFamily: 'Arial, sans-serif', borderRight: '1px solid black', padding: '8px' }}>
-                {phoneNumber.name}
-              </td>
-              <td style={{ fontSize: '1.2rem', fontFamily: 'Arial, sans-serif', padding: '8px' }}>
-                {phoneNumber.phoneNumber}
-              </td>
-            </tr>
-          ))}
+            {phoneNumbers.map((phoneNumber) => (
+              <tr key={phoneNumber._id}>
+                <td>
+                  <button className="action-button edit-button" onClick={() => updatePhoneNumber(phoneNumber)}>Edit</button>
+                  <button className="action-button delete-button" onClick={() => deletePhoneNumber(phoneNumber._id)}>Delete</button>
+                </td>
+                <td>{phoneNumber.name}</td>
+                <td>{phoneNumber.phoneNumber}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
